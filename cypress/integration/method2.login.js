@@ -1,4 +1,4 @@
-context("Method 2: Unit testing APEX", function () {
+context.skip("Method 2: Unit testing APEX", function () {
   const appUrl = "/apex/f?p=129826";
   const cookieName = "ORA_WWV_APP_129826";
   const restfulUrl = "[MISSING RESTFUL SERVICE]";
