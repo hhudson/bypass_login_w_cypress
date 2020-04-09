@@ -28,23 +28,24 @@ prompt APPLICATION 129826 - bypass login with cypress
 -- Application Export:
 --   Application:     129826
 --   Name:            bypass login with cypress
---   Date and Time:   21:02 Tuesday April 7, 2020
+--   Date and Time:   13:57 Thursday April 9, 2020
 --   Exported By:     HAYDENHHUDSON@GMAIL.COM
 --   Flashback:       0
 --   Export Type:     Application Export
---     Pages:                      3
+--     Pages:                      5
 --       Items:                    3
 --       Processes:                4
---       Regions:                  3
+--       Regions:                  5
 --       Buttons:                  1
 --     Shared Components:
 --       Logic:
+--         Build Options:          1
 --       Navigation:
 --         Lists:                  2
 --         Breadcrumbs:            1
 --           Entries:              1
 --       Security:
---         Authentication:         1
+--         Authentication:         2
 --         Authorization:          1
 --       User Interface:
 --         Themes:                 1
@@ -95,25 +96,29 @@ wwv_flow_api.create_flow(
 ,p_flow_image_prefix => nvl(wwv_flow_application_install.get_image_prefix,'')
 ,p_documentation_banner=>'Application created from create application wizard 2020.04.07.'
 ,p_authentication=>'PLUGIN'
-,p_authentication_id=>wwv_flow_api.id(5251334167508530168)
+,p_authentication_id=>wwv_flow_api.id(5669713263655571557)
 ,p_application_tab_set=>1
 ,p_logo_type=>'T'
 ,p_logo_text=>'bypass login with cypress'
 ,p_app_builder_icon_name=>'app-icon.svg'
+,p_public_user=>'APEX_PUBLIC_USER'
 ,p_proxy_server=>nvl(wwv_flow_application_install.get_proxy,'')
 ,p_no_proxy_domains=>nvl(wwv_flow_application_install.get_no_proxy_domains,'')
 ,p_flow_version=>'Release 1.0'
 ,p_flow_status=>'AVAILABLE_W_EDIT_LINK'
+,p_flow_unavailable_text=>'This application is currently unavailable at this time.'
 ,p_exact_substitutions_only=>'Y'
 ,p_browser_cache=>'N'
 ,p_browser_frame=>'D'
+,p_deep_linking=>'Y'
 ,p_rejoin_existing_sessions=>'N'
 ,p_csv_encoding=>'Y'
 ,p_auto_time_zone=>'N'
+,p_friendly_url=>'N'
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'bypass login with cypress'
 ,p_last_updated_by=>'HAYDENHHUDSON@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200407210113'
+,p_last_upd_yyyymmddhh24miss=>'20200409133704'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>3
 ,p_ui_type_name => null
@@ -134,6 +139,22 @@ wwv_flow_api.create_list_item(
 ,p_list_item_link_target=>'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:'
 ,p_list_item_icon=>'fa-home'
 ,p_list_item_current_type=>'TARGET_PAGE'
+);
+wwv_flow_api.create_list_item(
+ p_id=>wwv_flow_api.id(5314445612470727416)
+,p_list_item_display_sequence=>20
+,p_list_item_link_text=>'Page 2'
+,p_list_item_link_target=>'f?p=&APP_ID.:2:&APP_SESSION.::&DEBUG.:::'
+,p_list_item_current_type=>'COLON_DELIMITED_PAGE_LIST'
+,p_list_item_current_for_pages=>'2'
+);
+wwv_flow_api.create_list_item(
+ p_id=>wwv_flow_api.id(5314450355233729707)
+,p_list_item_display_sequence=>30
+,p_list_item_link_text=>'Page 3'
+,p_list_item_link_target=>'f?p=&APP_ID.:3:&APP_SESSION.::&DEBUG.:::'
+,p_list_item_current_type=>'COLON_DELIMITED_PAGE_LIST'
+,p_list_item_current_for_pages=>'3'
 );
 end;
 /
@@ -10646,7 +10667,13 @@ end;
 /
 prompt --application/shared_components/logic/build_options
 begin
-null;
+wwv_flow_api.create_build_option(
+ p_id=>wwv_flow_api.id(5669383437937553772)
+,p_build_option_name=>'DEV_ONLY'
+,p_build_option_status=>'EXCLUDE'
+,p_default_on_export=>'EXCLUDE'
+,p_build_option_comment=>'Prevents things from being exported to Production'
+);
 end;
 /
 prompt --application/shared_components/globalization/messages
@@ -10678,6 +10705,26 @@ wwv_flow_api.create_authentication(
 ,p_invalid_session_type=>'LOGIN'
 ,p_use_secure_cookie_yn=>'N'
 ,p_ras_mode=>0
+);
+end;
+/
+prompt --application/shared_components/security/authentications/noauth
+begin
+wwv_flow_api.create_authentication(
+ p_id=>wwv_flow_api.id(5669713263655571557)
+,p_name=>'noauth'
+,p_scheme_type=>'NATIVE_DAD'
+,p_plsql_code=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'function allow_alt_auth return boolean is',
+'begin',
+'	return apex_util.get_build_option_status(',
+'             P_APPLICATION_ID => :APP_ID,',
+'             P_BUILD_OPTION_NAME => ''DEV_ONLY'') = ''INCLUDE'';',
+'',
+'end;'))
+,p_use_secure_cookie_yn=>'N'
+,p_ras_mode=>0
+,p_switch_in_session_yn=>'Y'
 );
 end;
 /
@@ -10739,21 +10786,79 @@ wwv_flow_api.create_page(
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
 ,p_last_updated_by=>'HAYDENHHUDSON@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200407210113'
+,p_last_upd_yyyymmddhh24miss=>'20200409133328'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(5251683907686530369)
-,p_plug_name=>'bypass login with cypress'
+,p_plug_name=>'Home Page'
 ,p_icon_css_classes=>'app-icon'
 ,p_region_template_options=>'#DEFAULT#'
-,p_escape_on_http_output=>'Y'
 ,p_plug_template=>wwv_flow_api.id(5251378898927530222)
 ,p_plug_display_sequence=>10
 ,p_plug_display_point=>'REGION_POSITION_01'
 ,p_plug_query_num_rows=>15
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'HTML'
 ,p_attribute_03=>'Y'
+);
+end;
+/
+prompt --application/pages/page_00002
+begin
+wwv_flow_api.create_page(
+ p_id=>2
+,p_user_interface_id=>wwv_flow_api.id(5251673193786530316)
+,p_name=>'Page 2'
+,p_alias=>'PAGE-2'
+,p_step_title=>'Page 2'
+,p_autocomplete_on_off=>'OFF'
+,p_page_template_options=>'#DEFAULT#'
+,p_last_updated_by=>'HAYDENHHUDSON@GMAIL.COM'
+,p_last_upd_yyyymmddhh24miss=>'20200409133618'
+);
+wwv_flow_api.create_page_plug(
+ p_id=>wwv_flow_api.id(3138223727692392646)
+,p_plug_name=>'Page 2'
+,p_icon_css_classes=>'fa-universal-access'
+,p_region_template_options=>'#DEFAULT#'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>wwv_flow_api.id(5251378898927530222)
+,p_plug_display_sequence=>10
+,p_include_in_reg_disp_sel_yn=>'Y'
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_menu_id=>wwv_flow_api.id(5251334436244530169)
+,p_plug_source_type=>'NATIVE_BREADCRUMB'
+,p_menu_template_id=>wwv_flow_api.id(5251651994322530285)
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
+);
+end;
+/
+prompt --application/pages/page_00003
+begin
+wwv_flow_api.create_page(
+ p_id=>3
+,p_user_interface_id=>wwv_flow_api.id(5251673193786530316)
+,p_name=>'Page 3'
+,p_alias=>'PAGE-3'
+,p_step_title=>'Page 3'
+,p_autocomplete_on_off=>'OFF'
+,p_page_template_options=>'#DEFAULT#'
+,p_last_updated_by=>'HAYDENHHUDSON@GMAIL.COM'
+,p_last_upd_yyyymmddhh24miss=>'20200409133704'
+);
+wwv_flow_api.create_page_plug(
+ p_id=>wwv_flow_api.id(3138223870235392647)
+,p_plug_name=>'Page 3'
+,p_icon_css_classes=>'fa-emoji-cool'
+,p_region_template_options=>'#DEFAULT#'
+,p_plug_template=>wwv_flow_api.id(5251378898927530222)
+,p_plug_display_sequence=>10
+,p_include_in_reg_disp_sel_yn=>'Y'
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
+,p_attribute_01=>'N'
+,p_attribute_02=>'HTML'
 );
 end;
 /
@@ -10772,7 +10877,7 @@ wwv_flow_api.create_page(
 ,p_page_template_options=>'#DEFAULT#'
 ,p_page_is_public_y_n=>'Y'
 ,p_last_updated_by=>'HAYDENHHUDSON@GMAIL.COM'
-,p_last_upd_yyyymmddhh24miss=>'20200407210113'
+,p_last_upd_yyyymmddhh24miss=>'20200407224513'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(5251677139406530342)
@@ -10811,9 +10916,7 @@ wwv_flow_api.create_page_button(
 ,p_button_is_hot=>'Y'
 ,p_button_image_alt=>'Sign In'
 ,p_button_position=>'REGION_TEMPLATE_NEXT'
-,p_button_alignment=>'LEFT'
-,p_grid_new_row=>'Y'
-,p_grid_new_column=>'Y'
+,p_button_cattributes=>'data-cy=sign_inButton'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(5251677536565530344)
@@ -10825,14 +10928,13 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_TEXT_FIELD'
 ,p_cSize=>40
 ,p_cMaxlength=>100
-,p_label_alignment=>'RIGHT'
+,p_tag_attributes=>'data-cy=username'
 ,p_field_template=>wwv_flow_api.id(5251649198383530280)
 ,p_item_icon_css_classes=>'fa-user'
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
 ,p_attribute_01=>'N'
 ,p_attribute_02=>'N'
-,p_attribute_03=>'N'
 ,p_attribute_04=>'TEXT'
 ,p_attribute_05=>'NONE'
 );
@@ -10846,7 +10948,7 @@ wwv_flow_api.create_page_item(
 ,p_display_as=>'NATIVE_PASSWORD'
 ,p_cSize=>40
 ,p_cMaxlength=>100
-,p_label_alignment=>'RIGHT'
+,p_tag_attributes=>'data-cy=password'
 ,p_field_template=>wwv_flow_api.id(5251649198383530280)
 ,p_item_icon_css_classes=>'fa-key'
 ,p_item_template_options=>'#DEFAULT#'
