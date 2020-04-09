@@ -1,14 +1,14 @@
 context("Method 1: Unit testing APEX", () => {
-  const loginPage = "/apex/f?p=129826:LOGIN";
+  const appUrl = "/apex/f?p=129826";
   const cookieName = "ORA_WWV_APP_129826";
   const pUsername = "test_user";
   const pPassword = "Oradoc_db1";
   var loggedInPage;
-  var app_cookie;
+  var appCookie;
   var pageUrl;
 
   before(function () {
-    cy.visit(loginPage);
+    cy.visit(appUrl);
     cy.clearCookie("LOGIN_USERNAME_COOKIE");
     cy.get("[data-cy=username]")
       .clear()
@@ -27,18 +27,18 @@ context("Method 1: Unit testing APEX", () => {
         cy.visit(loggedInPage); //necessary due to #redirectmalfunction
       });
     cy.getCookie(cookieName).then(($Cookie) => {
-      app_cookie = $Cookie.value;
+      appCookie = $Cookie.value;
     });
   });
 
   it("Visit page 2", () => {
-    cy.setCookie(cookieName, app_cookie);
+    cy.setCookie(cookieName, appCookie);
     pageUrl = loggedInPage.replace(":1:", ":2:");
     cy.visit(pageUrl);
   });
 
   it("Visit page 3", () => {
-    cy.setCookie(cookieName, app_cookie);
+    cy.setCookie(cookieName, appCookie);
     pageUrl = loggedInPage.replace(":1:", ":3:");
     cy.visit(pageUrl);
   });
