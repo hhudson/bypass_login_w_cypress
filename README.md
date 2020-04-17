@@ -8,11 +8,11 @@ This Github Repo is provided to complement my blog post [Unit testing APEX – 3
 
 ### Step 1: Install the APEX application
 
-There is [an APEX application](/apex/f129826.sql) in the 'apex' folder. It is, as of 4/17/2020, compatible with a minimum APEX version of APEX 20.1. I can suggest you install it in a free workspace provided to you at [apex.oracle.com](https://apex.oracle.home). There isn't much in this application but the Cypress scripts are written to expect it.
+There is [an APEX application](/apex/f129826.sql) in the 'apex' folder. It is, as of 4/17/2020, compatible with a minimum APEX version of APEX 20.1. I can suggest you install it in a free workspace provided to you at [apex.oracle.com](https://apex.oracle.com). There isn't much in this application but the Cypress scripts are written to expect it.
 
-### Step 2 : Update your Cypress scripts with your URL
+### Step 2 : Update your Cypress scripts with your environment details
 
-You will need to update "appUrl" values in the 3 integration scripts ([1](/cypress/integration/method1.login.js), [2](/cypress/integration/method2.login.js), [3](/cypress/integration/method3.login.js))
+You will need to update the "appUrl", "cookieName", "pUsername", "pPassword" and "restfulUrl" values in the 3 integration scripts ([1](/cypress/integration/method1.login.js), [2](/cypress/integration/method2.login.js), [3](/cypress/integration/method3.login.js))
 
 Additionally, ou may need to update the "base_url" value in the [cypress.json](cypress.json) file in the root folder.
 
