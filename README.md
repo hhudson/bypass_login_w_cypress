@@ -25,3 +25,17 @@ npm install
 ```
 
 (For this command to success, you will to have [Node](https://nodejs.org/en/download/) installed)
+
+## Run Cypress scripts
+
+You have several options here, I'll recommend you run the following command from the root folder of this repo:
+
+```
+npx cypress open
+```
+
+You will see the Cypress Desktop GUI launch and you'll be able to pick the scripts you want to run.
+
+For more details on how to run / configure / write Cypress, visit [the Cypress website](https://cypress.io).
+
+Feel free to reach out to me on twitter [@haydenhhudson](https://twitter.com/haydenhhudson).
